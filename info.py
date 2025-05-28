@@ -18,28 +18,28 @@ def is_enabled(value, default):
         return default
 
 #main variables
-API_ID = int(environ.get('API_ID', '26592588'))
-API_HASH = environ.get('API_HASH', '4f78c40e672ad86e10384cc8a0b43dc7')
-BOT_TOKEN = environ.get('BOT_TOKEN', '7702055177:AAFqXRz-AsPVAJ5npGCMTC5ZDHwdIOldDj0')
-ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1769132732').split()]
-USERNAME = environ.get('USERNAME', 'https://telegram.me/SPARKBR0')
-LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002077780554'))
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1001530260929').split()]
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://reqcheck:reqcheck@cluster0.wyd3ukc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://reqcheck3333:reqcheck3333@cluster0.pxsxgj1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+API_ID = int(environ.get('API_ID', '26128908'))
+API_HASH = environ.get('API_HASH', '6bf92ae138ac065939834600e14db146')
+BOT_TOKEN = environ.get('BOT_TOKEN', '7574936799:AAEVKJsdbeOKtYgqAH6oV3LhuXpDRi63jlo')
+ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1769132732 560951157').split()]
+USERNAME = environ.get('USERNAME', 'https://telegram.me/Stevettan')
+LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002145049116'))
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '').split()]
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://cmbot1db1:cmbot1db1@cluster0.lk9dfj7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://cmbot1db2:cmbot1db2@cluster0.udfisfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Theproducksir')
-LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002077780554'))
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'TheSearchkiddossz')
+LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002145049116'))
 QR_CODE = environ.get('QR_CODE', 'https://envs.sh/wam.jpg')
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '0').split()]
 
 #this vars is for when heroku or koyeb acc get banned, then change this vars as your file to link bot name
-BIN_CHANNEL = int(environ.get('BIN_CHANNEL', '-1002077780554'))
+BIN_CHANNEL = int(environ.get('BIN_CHANNEL', '-1002145049116'))
 URL = environ.get('URL', 'https://heroku.com/botbsbsbbshbs/')
 
 # verify system vars
 IS_VERIFY = is_enabled('IS_VERIFY', False)
-LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1002077780554'))
+LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1002145049116'))
 TUTORIAL = environ.get("TUTORIAL", "https://youtu.be/0c-i2Lol6LU")
 TUTORIAL2 = environ.get("TUTORIAL2", "https://youtu.be/GdaUbzxDTKs")
 TUTORIAL3 = environ.get("TUTORIAL3", "https://youtu.be/rddlpYLm0G0")
@@ -56,9 +56,9 @@ THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "21600"))
 # languages search
 LANGUAGES = ["hindi", "english", "telugu", "tamil", "kannada", "malayalam"]
 
-auth_channel = environ.get('AUTH_CHANNEL', '-1002010620804')
+auth_channel = environ.get('AUTH_CHANNEL', '')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
-SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002130604152'))
+SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', ''))
 
 # Working groups for search restriction bot only works on this channels 
 WORKING_GROUPS = environ.get('WORKING_GROUPS', "-1001932630522 -1001992521975")  # Space-separated group IDs
