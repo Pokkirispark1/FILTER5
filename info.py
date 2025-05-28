@@ -20,15 +20,15 @@ def is_enabled(value, default):
 #main variables
 API_ID = int(environ.get('API_ID', '26128908'))
 API_HASH = environ.get('API_HASH', '6bf92ae138ac065939834600e14db146')
-BOT_TOKEN = environ.get('BOT_TOKEN', '7574936799:AAEVKJsdbeOKtYgqAH6oV3LhuXpDRi63jlo')
+BOT_TOKEN = environ.get('BOT_TOKEN', '7559253315:AAEsbyOGfpXuO_9vfRwMIKyofv90kjUCssw')
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1769132732 560951157').split()]
 USERNAME = environ.get('USERNAME', 'https://telegram.me/Stevettan')
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002145049116'))
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '').split()]
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://cmbot1db1:cmbot1db1@cluster0.lk9dfj7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://cmbot1db2:cmbot1db2@cluster0.udfisfs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://cmbot5db1:cmbot5db1@cluster0.xa7rvom.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://cmbot5db2:cmbot5db2@cluster0.w5raldn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
-COLLECTION_NAME = environ.get('COLLECTION_NAME', 'TheSearchkiddossz')
+COLLECTION_NAME = environ.get('COLLECTION_NAME', 'TheSeatimebotsfives')
 LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002145049116'))
 QR_CODE = environ.get('QR_CODE', 'https://envs.sh/wam.jpg')
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '0').split()]
@@ -56,9 +56,9 @@ THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "21600"))
 # languages search
 LANGUAGES = ["hindi", "english", "telugu", "tamil", "kannada", "malayalam"]
 
-auth_channel = environ.get('AUTH_CHANNEL', '')
+auth_channel = environ.get('AUTH_CHANNEL', '-1002551787813')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
-SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', ''))
+SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002145049116'))
 
 # Working groups for search restriction bot only works on this channels 
 WORKING_GROUPS = environ.get('WORKING_GROUPS', "-1001932630522 -1001992521975")  # Space-separated group IDs
@@ -68,7 +68,7 @@ ALLOWED_GROUP_IDS = [int(group_id) for group_id in WORKING_GROUPS.split()] if WO
 AUTO_FILTER = is_enabled('AUTO_FILTER', True)
 PORT = os.environ.get('PORT', '8080')
 MAX_BTN = int(environ.get('MAX_BTN', '8'))
-AUTO_DELETE = is_enabled('AUTO_DELETE', True)
+AUTO_DELETE = is_enabled('AUTO_DELETE', False)
 DELETE_TIME = int(environ.get('DELETE_TIME', 600))
 IMDB = is_enabled('IMDB', False)
 FILE_CAPTION = environ.get('FILE_CAPTION', f'{script.FILE_CAPTION}')
