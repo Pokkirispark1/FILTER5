@@ -61,7 +61,7 @@ AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_chan
 SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002145049116'))
 
 # Working groups for search restriction bot only works on this channels 
-WORKING_GROUPS = environ.get('WORKING_GROUPS', "-1001932630522 -1001992521975")  # Space-separated group IDs
+WORKING_GROUPS = environ.get('WORKING_GROUPS', "-1001932630522 -1001992521975 -1001992521975")  # Space-separated group IDs
 ALLOWED_GROUP_IDS = [int(group_id) for group_id in WORKING_GROUPS.split()] if WORKING_GROUPS else []
 
 # bot settings
