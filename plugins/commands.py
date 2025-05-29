@@ -73,12 +73,12 @@ async def start(client: Client, message):
         await client.send_message(LOG_CHANNEL, script.NEW_USER_TXT.format(message.from_user.id, message.from_user.mention))
     if len(message.command) != 2:
         buttons = [[
-            InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ 🎬", url='https://t.me/+ukchoLWnPPxjOTRk')
+            InlineKeyboardButton("ᴜᴘᴅᴀᴛᴇs ᴄʜᴀɴɴᴇʟ 🚨", url='https://t.me/+ukchoLWnPPxjOTRk')
         ],[
-            InlineKeyboardButton("ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 1 🎬", url='https://t.me/+NYDsPNzuu_thZGRl'),
-            InlineKeyboardButton("ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 2 🎬", url='https://t.me/+Vw364TMZTkpjNWVl')
+            InlineKeyboardButton("ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 1 ✅", url='https://t.me/+NYDsPNzuu_thZGRl'),
+            InlineKeyboardButton("ᴍᴏᴠɪᴇ ɢʀᴏᴜᴘ 2 ✅", url='https://t.me/+Vw364TMZTkpjNWVl')
         ],[
-            InlineKeyboardButton("ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ ⚓️", url='https://t.me/CM_request_bot')
+            InlineKeyboardButton("ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ 🎧", url='https://t.me/CM_request_bot')
         ]]   
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_text(script.START_TXT.format(message.from_user.mention, get_status(), message.from_user.id),
