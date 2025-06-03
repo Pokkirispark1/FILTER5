@@ -2,10 +2,11 @@ import asyncio
 import re
 import math
 import logging
+from datetime import datetime, timedelta
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from Script import script
 from info import MAX_BTN, BIN_CHANNEL, USERNAME, URL, IS_VERIFY, LANGUAGES, AUTH_CHANNEL, SUPPORT_GROUP, QR_CODE, DELETE_TIME, PM_SEARCH, ADMINS, ALLOWED_GROUP_IDS
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, WebAppInfo 
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, WebAppInfo, ChatPermissions
 from pyrogram import Client, filters, enums
 from pyrogram.errors import MessageNotModified
 from utils import temp, get_settings, is_check_admin, get_status, get_hash, get_name, get_size, save_group_settings, get_poster, get_status, get_readable_time, get_shortlink, is_user_subscribed, imdb
@@ -68,12 +69,36 @@ async def group_search(client, message):
         if message.text.startswith("/"):
             return
         
-        elif re.findall(r'https?://\S+|www\.\S+|t\.me/\S+', message.text):
+        if re.search(r'(https?://[^\s]+|www\.[^\s]+|t\.me/[^\s]+|@[^\s]+)', message.text, re.IGNORECASE):
             if await is_check_admin(client, message.chat.id, message.from_user.id):
                 return
-            await message.delete()
-            return await message.reply('<b>‼️ ᴡʜʏ ʏᴏᴜ ꜱᴇɴᴅ ʜᴇʀᴇ ʟɪɴᴋ\nʟɪɴᴋ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ ʜᴇʀᴇ 🚫</b>')
-
+            try:
+                await message.delete()
+                until_date = datetime.now() + timedelta(hours=24)
+                await client.restrict_chat_member(
+                    chat_id=message.chat.id,
+                    user_id=message.from_user.id,
+                    permissions=ChatPermissions(
+                        can_send_messages=False
+                    ),
+                    until_date=until_date
+                )
+                user_mention = message.from_user.mention
+                alert_msg = await message.reply_text(
+                    f"<b><u>ALERT 🚨</u>\n\n"
+                    f"{user_mention}'s message was identified as spam and I've muted him for 24h ✅\n\n"
+                    f"Please DON'T send links to this group ‼️</b>"
+                )
+            except Exception as e:
+            
+                print(f"Failed to restrict user {message.from_user.id}: {str(e)}")
+            
+                await message.reply_text(
+                    f"<b>⚠️ Link detected from {message.from_user.mention}\n"
+                    f"Links are not allowed in this group! 🚫</b>"
+                )
+            return
+            
         elif '@admin' in message.text.lower() or '@admins' in message.text.lower():
             if await is_check_admin(client, message.chat.id, message.from_user.id):
                 return
