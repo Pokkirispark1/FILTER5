@@ -59,6 +59,7 @@ LANGUAGES = ["hindi", "english", "telugu", "tamil", "kannada", "malayalam"]
 auth_channel = environ.get('AUTH_CHANNEL', '-1002696629545')
 AUTH_CHANNEL = int(auth_channel) if auth_channel and id_pattern.search(auth_channel) else None
 SUPPORT_GROUP = int(environ.get('SUPPORT_GROUP', '-1002145049116'))
+MOVI_UPDATES_URL = environ.get('MOVI_UPDATES_URL', 'https://t.me/+CSf01FYEZBo1MmQ8')
 
 # Working groups for search restriction bot only works on this channels 
 WORKING_GROUPS = environ.get('WORKING_GROUPS', "-1002345891582 -1002227429072 -1001992521975")  # Space-separated group IDs
