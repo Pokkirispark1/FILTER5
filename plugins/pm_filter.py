@@ -5,7 +5,7 @@ import logging
 from datetime import datetime, timedelta
 from pyrogram.errors.exceptions.bad_request_400 import MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
 from Script import script
-from info import MAX_BTN, BIN_CHANNEL, USERNAME, URL, IS_VERIFY, LANGUAGES, AUTH_CHANNEL, SUPPORT_GROUP, QR_CODE, DELETE_TIME, PM_SEARCH, ADMINS, ALLOWED_GROUP_IDS
+from info import MAX_BTN, BIN_CHANNEL, USERNAME, URL, IS_VERIFY, LANGUAGES, AUTH_CHANNEL, SUPPORT_GROUP, QR_CODE, DELETE_TIME, PM_SEARCH, ADMINS, ALLOWED_GROUP_IDS, MOVI_UPDATES_URL
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, WebAppInfo, ChatPermissions
 from pyrogram import Client, filters, enums
 from pyrogram.errors import MessageNotModified
@@ -172,7 +172,7 @@ async def next_page(bot, query):
 
     if not settings["is_verify"]:
         btn.insert(0,
-            [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+            [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
         )
         btn.insert(1,
             [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -185,7 +185,7 @@ async def next_page(bot, query):
         ])
     else:
         btn.insert(0,
-            [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+            [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
         )
         btn.insert(1,
             [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -283,11 +283,11 @@ async def lang_search(client: Client, query: CallbackQuery):
               ]
     if not settings["is_verify"]:
         btn.insert(0,[
-            InlineKeyboardButton("🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖", url=f"https://t.me/{temp.U_NAME}")
+            InlineKeyboardButton("🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖", url=MOVI_UPDATES_URL)
         ])
     else:
         btn.insert(0,[
-            InlineKeyboardButton("🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖", url=f"https://t.me/{temp.U_NAME}")
+            InlineKeyboardButton("🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖", url=MOVI_UPDATES_URL)
         ])
     if n_offset != "":
         btn.append(
@@ -336,11 +336,11 @@ async def lang_next_page(bot, query):
         ]
     if not settings['is_verify']:
         btn.insert(0,[
-            InlineKeyboardButton("🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖", url=f"https://t.me/{temp.U_NAME}")
+            InlineKeyboardButton("🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖", url=MOVI_UPDATES_URL)
         ])
     else:
         btn.insert(0,[
-            InlineKeyboardButton("🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖", url=f"https://t.me/{temp.U_NAME}")
+            InlineKeyboardButton("🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖", url=MOVI_UPDATES_URL)
         ])
     if 0 < l_offset <= MAX_BTN:
         b_offset = 0
@@ -673,7 +673,7 @@ async def auto_filter(client, msg, spoll=False):
         if total_results >= 3:
             if not settings["is_verify"]:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -686,7 +686,7 @@ async def auto_filter(client, msg, spoll=False):
                 ])
             else:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -700,7 +700,7 @@ async def auto_filter(client, msg, spoll=False):
         else:
             if not settings["is_verify"]:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -713,7 +713,7 @@ async def auto_filter(client, msg, spoll=False):
                 ])
             else:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -728,7 +728,7 @@ async def auto_filter(client, msg, spoll=False):
         if total_results >= 3:
             if not settings["is_verify"]:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -741,7 +741,7 @@ async def auto_filter(client, msg, spoll=False):
                 ])
             else:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                 btn.insert(1,
                     [InlineKeyboardButton("📰 ʟᴀɴɢᴜᴀɢᴇs 📰", callback_data=f"languages#{key}#{req}#{offset}")
@@ -755,11 +755,11 @@ async def auto_filter(client, msg, spoll=False):
         else:
             if not settings["is_verify"]:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
             else:
                 btn.insert(0,
-                    [InlineKeyboardButton('🎖 Cʜᴇᴄᴋ Bᴏᴛ PM 🎖', url=f"https://t.me/{temp.U_NAME}")]
+                    [InlineKeyboardButton('🎖 Lᴀᴛᴇꜱᴛ Mᴏᴠɪᴇ Uᴘᴅᴀᴛᴇꜱ 🎖', url=MOVI_UPDATES_URL)]
                 )
                          
     if spoll:
@@ -818,7 +818,7 @@ async def auto_filter(client, msg, spoll=False):
         )
     else:
         cap = f"<b><i>Hᴇʏ {message.from_user.mention}👋🏻\n\n🔖 Tɪᴛʟᴇ :{search}\n📪 Yᴏᴜʀ Fɪʟᴇs ᴀʀᴇ ʀᴇᴀᴅʏ ɴᴏᴡ..\n\n<blockquote>Jᴏɪɴ @CM_Zone Fᴏʀ Uᴘᴅᴀᴛᴇs ❄️</blockquote></i></b>"
-    del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇᴅ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
+    #del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇᴅ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
     CAP[key] = cap
     if imdb and imdb.get('poster'):
         try:
