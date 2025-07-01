@@ -121,8 +121,7 @@ async def start(client: Client, message):
     except:
         pre, grp_id, file_id = "", 0, data
     settings = await get_settings(int(grp_id))
-    id = settings.get('fsub_id', AUTH_CHANNEL)
-    channel = int(id)
+    channel = await db.get_rfsub_id()
     if user_id in ADMINS:
         files_ = await get_file_details(file_id)
         if not files_:
@@ -185,39 +184,33 @@ async def start(client: Client, message):
                 ])
             )
         return
-    # No join request, send "Join Now" prompt
-    if settings.get('fsub_id', AUTH_CHANNEL):
-        # Create or retrieve join request link
-        if not temp.LINK.get(channel):
-            try:
-                link_obj = await client.create_chat_invite_link(
-                    chat_id=channel,
-                    creates_join_request=True
-                )
-                temp.LINK[channel] = link_obj.invite_link
-                invite_url = link_obj.invite_link
-            except Exception as e:
-                await message.reply(f"Unable to create invite link: {e}")
-                return
-        else:
-            invite_url = temp.LINK[channel]
-        temp.AUTO_ACCEPT[str(user_id)] = {
-            'file_id': file_id, 
-            'mode': 'start_file', 
-            'grp_id': grp_id
-        }
-        buttons = [
-            [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)],
-            [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
-        ]
-        reply = await client.send_message(
-            chat_id=user_id,
-            text=script.FSUB_TXT.format(message.from_user.mention),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=enums.ParseMode.HTML
+    try:
+        link_obj = await client.create_chat_invite_link(
+            chat_id=channel,
+            creates_join_request=True
         )
+        temp.LINK[channel] = link_obj.invite_link
+        invite_url = link_obj.invite_link
+    except Exception as e:
+        await message.reply(f"Unable to create invite link: {e}")
         return
-        
+    temp.AUTO_ACCEPT[str(user_id)] = {
+        'file_id': file_id, 
+        'mode': 'start_file', 
+        'grp_id': grp_id
+    }
+    buttons = [
+        [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)]
+        [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
+    ]
+    reply = await client.send_message(
+        chat_id=user_id,
+        text=script.FSUB_TXT.format(message.from_user.mention),
+        reply_markup=InlineKeyboardMarkup(buttons),
+        parse_mode=enums.ParseMode.HTML
+    )
+    return
+            
     user_id = m.from_user.id
     if not await db.has_premium_access(user_id):
         grp_id = int(grp_id)
@@ -597,7 +590,42 @@ async def set_log(client, message):
     link = (await client.get_chat(message.chat.id)).invite_link
     grp_link = f"[{message.chat.title}]({link})"
     log_message = f"#New_Log_Channel_Set\n\nName - {user_info}\nId - `{user_id}`\n\nLog channel id - `{log}`\nGroup link - {grp_link}"
-    await client.send_message(LOG_API_CHANNEL, log_message, disable_web_page_preview=True)  
+    await client.send_message(LOG_API_CHANNEL, log_message, disable_web_page_preview=True)
+
+@Client.on_message(filters.command('rfsub') & filters.private & filters.user(ADMINS))
+async def set_rfsub(client, message):
+    if message.chat.type != enums.ChatType.PRIVATE:
+        return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
+    try:
+        channel_id = int(message.text.split(" ", 1)[1])
+    except IndexError:
+        return await message.reply_text("<b>ᴄᴏᴍᴍᴀɴᴅ ɪɴᴄᴏᴍᴘʟᴇᴛᴇ\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs -\n`/rfsub -100xxxxxxxx`</b>")
+    except ValueError:
+        return await message.reply_text('<b>ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛʜᴇ ɪᴅ ɪꜱ ᴀɴ ɪɴᴛᴇɢᴇʀ.</b>')
+    try:
+        chat = await client.get_chat(channel_id)
+    except Exception as e:
+        return await message.reply_text(f"<b><code>{channel_id}</code> ɪꜱ ɪɴᴠᴀʟɪᴅ. ᴍᴀᴋᴇ ꜱᴜʀᴇ <a href=https://telegram.me/{temp.B_LINK}</a> ɪꜱ ᴀᴅᴍɪɴ ɪɴ ᴛʜᴀᴛ ᴄʜᴀɴɴᴇʟ\n\n<code>{e}</code></b>")
+    if chat.type != enums.ChatType.CHANNEL:
+        return await message.reply_text(f"🫥 <code>{channel_id}</code> ᴛʜɪꜱ ɪꜱ ɴᴏᴛ ᴄʜᴀɴɴᴇʟ, ꜱᴇɴᴅ ᴍᴇ ᴏɴʟʏ ᴄʜᴀɴɴᴇʟ ɪᴅ ɴᴏᴛ ɢʀᴏᴜᴘ ɪᴅ</b>")
+    await db.set_rfsub_id(channel_id)
+    mention = message.from_user.mention
+    await client.send_message(LOG_CHANNEL, f"#Rfsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel:\n\nRfsub channel - {chat.title}\nId - `{channel_id}`")
+    await message.reply_text(f"<b>ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙꜱᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
+
+@Client.on_message(filters.command('norfsub') & filters.private & filters.user(ADMINS))
+async def remove_rfsub(client, message):
+    if message.chat.type != enums.ChatType.PRIVATE:
+        return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
+    rfsub_id = await db.get_rfsub_id()
+    if rfsub_id == AUTH_CHANNEL:
+        await message.reply_text("<b>ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴇᴛ ᴀɴʏ ʀꜰsᴜʙ ᴄʜᴀɴɴᴇʟ ʏᴇᴛ 🤪\nᴛʜᴇɴ ʜᴏᴡ ᴄᴀɴ ʏᴏᴜ ʀᴇᴍᴏᴠᴇ ɪᴛ</b>")
+    else:
+        await db.remove_rfsub_id()
+        mention = message.from_user.mention
+        await client.send_message(LOG_CHANNEL, f"#Remove_Rfsub_Channel\n\nUser - {mention} removed the global rfsub channel")
+        await message.reply_text("<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙ ᴄʜᴀɴɴᴇʟ.</b>")
+        
 
 @Client.on_message(filters.command('ginfo'))
 async def all_settings(client, message):
@@ -621,6 +649,9 @@ async def all_settings(client, message):
 
 🌀 ꜰꜱᴜʙ ᴄʜᴀɴɴᴇʟ ɪᴅ -
 `{settings.get('fsub_id', AUTH_CHANNEL)}`
+
+🌀 ʀꜰsᴜʙ ᴄʜᴀɴɴᴇʟ ɪᴅ (ɢʟᴏʙᴀʟ) -
+`{rfsub_id}`
 
 🎯 ɪᴍᴅʙ ᴛᴇᴍᴘʟᴀᴛᴇ -
 `{settings['template']}`
@@ -659,6 +690,9 @@ async def all_settings(client, message):
 
 🌀 ꜰꜱᴜʙ ᴄʜᴀɴɴᴇʟ ɪᴅ -
 `{settings.get('fsub_id', AUTH_CHANNEL)}`
+
+🌀 ʀꜰsᴜʙ ᴄʜᴀɴɴᴇʟ ɪᴅ (ɢʟᴏʙᴀʟ) -
+`{rfsub_id}`
 
 🎯 ɪᴍᴅʙ ᴛᴇᴍᴘʟᴀᴛᴇ -
 `{settings['template']}`
