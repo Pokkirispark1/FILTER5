@@ -199,18 +199,18 @@ async def start(client: Client, message):
             'file_id': file_id, 
             'mode': 'start_file', 
             'grp_id': grp_id
-        }
-        buttons = [
-            [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)],
-            [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
-        ]
-        reply = await client.send_message(
-            chat_id=user_id,
-            text=script.FSUB_TXT.format(message.from_user.mention),
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=enums.ParseMode.HTML
-        )
-        return
+    }
+    buttons = [
+        [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)],
+        [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
+    ]
+    reply = await client.send_message(
+        chat_id=user_id,
+        text=script.FSUB_TXT.format(message.from_user.mention),
+        reply_markup=InlineKeyboardMarkup(buttons),
+        parse_mode=enums.ParseMode.HTML
+    )
+    return
         
     user_id = m.from_user.id
     if not await db.has_premium_access(user_id):
