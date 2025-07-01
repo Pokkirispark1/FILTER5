@@ -3,7 +3,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import ChatJoinRequest, InlineKeyboardMarkup, InlineKeyboardButton
 from database.users_chats_db import db
 from Script import script
-from info import DELETE_TIME, AUTH_CHANNEL, ADMINS, OWNER_LINK, MOVI_CHNL, MOVI_GRP
+from info import *
 from database.ia_filterdb import get_file_details
 from utils import get_settings, get_size
 import asyncio
