@@ -195,8 +195,7 @@ async def start(client: Client, message):
     except Exception as e:
         await message.reply(f"Unable to create invite link: {e}")
         return
-    invite_url = temp.LINK[channel]
-        temp.AUTO_ACCEPT[str(user_id)] = {
+    temp.AUTO_ACCEPT[str(user_id)] = {
             'file_id': file_id, 
             'mode': 'start_file', 
             'grp_id': grp_id
