@@ -3,14 +3,17 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import ChatJoinRequest, InlineKeyboardMarkup, InlineKeyboardButton
 from database.users_chats_db import db
 from Script import script
-from info import DELETE_TIME, AUTH_CHANNEL, ADMINS
+from info import DELETE_TIME, AUTH_CHANNEL, ADMINS, OWNER_LINK, MOVI_CHNL, MOVI_GRP
 from database.ia_filterdb import get_file_details
 from utils import get_settings, get_size
 import asyncio
 
-@Client.on_chat_join_request(filters.chat(chats=[int(AUTH_CHANNEL)]))
+@Client.on_chat_join_request()
 async def join_reqs(client, join_req):
     user_id = join_req.from_user.id
+    channel_id = await db.get_rfsub_id()  # Use global rfsub_id
+    if join_req.chat.id != int(channel_id):
+        return  # Ignore join requests for other channels
     # Add user to req collection
     await db.add_join_req(user_id)
     # Check if there's a pending file request
