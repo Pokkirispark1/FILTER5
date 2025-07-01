@@ -184,6 +184,7 @@ async def start(client: Client, message):
                 ])
             )
         return
+    
     try:
         link_obj = await client.create_chat_invite_link(
             chat_id=channel,
@@ -194,23 +195,24 @@ async def start(client: Client, message):
     except Exception as e:
         await message.reply(f"Unable to create invite link: {e}")
         return
-    temp.AUTO_ACCEPT[str(user_id)] = {
-        'file_id': file_id, 
-        'mode': 'start_file', 
-        'grp_id': grp_id
-    }
-    buttons = [
-        [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)]
-        [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
-    ]
-    reply = await client.send_message(
-        chat_id=user_id,
-        text=script.FSUB_TXT.format(message.from_user.mention),
-        reply_markup=InlineKeyboardMarkup(buttons),
-        parse_mode=enums.ParseMode.HTML
-    )
-    return
-            
+    invite_url = temp.LINK[channel]
+        temp.AUTO_ACCEPT[str(user_id)] = {
+            'file_id': file_id, 
+            'mode': 'start_file', 
+            'grp_id': grp_id
+        }
+        buttons = [
+            [InlineKeyboardButton("✿ Jᴏɪɴ Oᴜʀ Cʜᴀɴɴᴇʟ ✿", url=invite_url)],
+            [InlineKeyboardButton("Wʜʏ Tᴏ Jᴏɪɴ ?", url="https://telegra.ph/Why-to-join-Backup-Channel-06-11")]
+        ]
+        reply = await client.send_message(
+            chat_id=user_id,
+            text=script.FSUB_TXT.format(message.from_user.mention),
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=enums.ParseMode.HTML
+        )
+        return
+        
     user_id = m.from_user.id
     if not await db.has_premium_access(user_id):
         grp_id = int(grp_id)
@@ -609,6 +611,7 @@ async def set_rfsub(client, message):
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply_text(f"🫥 <code>{channel_id}</code> ᴛʜɪꜱ ɪꜱ ɴᴏᴛ ᴄʜᴀɴɴᴇʟ, ꜱᴇɴᴅ ᴍᴇ ᴏɴʟʏ ᴄʜᴀɴɴᴇʟ ɪᴅ ɴᴏᴛ ɢʀᴏᴜᴘ ɪᴅ</b>")
     await db.set_rfsub_id(channel_id)
+    await db.del_join_req()
     mention = message.from_user.mention
     await client.send_message(LOG_CHANNEL, f"#Rfsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel:\n\nRfsub channel - {chat.title}\nId - `{channel_id}`")
     await message.reply_text(f"<b>ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙꜱᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
@@ -622,6 +625,7 @@ async def remove_rfsub(client, message):
         await message.reply_text("<b>ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴇᴛ ᴀɴʏ ʀꜰsᴜʙ ᴄʜᴀɴɴᴇʟ ʏᴇᴛ 🤪\nᴛʜᴇɴ ʜᴏᴡ ᴄᴀɴ ʏᴏᴜ ʀᴇᴍᴏᴠᴇ ɪᴛ</b>")
     else:
         await db.remove_rfsub_id()
+        await db.del_join_req()
         mention = message.from_user.mention
         await client.send_message(LOG_CHANNEL, f"#Remove_Rfsub_Channel\n\nUser - {mention} removed the global rfsub channel")
         await message.reply_text("<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙ ᴄʜᴀɴɴᴇʟ.</b>")
