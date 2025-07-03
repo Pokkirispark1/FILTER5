@@ -593,7 +593,7 @@ async def set_log(client, message):
     log_message = f"#New_Log_Channel_Set\n\nName - {user_info}\nId - `{user_id}`\n\nLog channel id - `{log}`\nGroup link - {grp_link}"
     await client.send_message(LOG_API_CHANNEL, log_message, disable_web_page_preview=True)
 
-@Client.on_message(filters.command('rfsub') & filters.private & filters.user(ADMINS))
+@Client.on_message(filters.command('fsub') & filters.private & filters.user(ADMINS))
 async def set_rfsub(client, message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
@@ -615,7 +615,7 @@ async def set_rfsub(client, message):
     await client.send_message(LOG_CHANNEL, f"#Rfsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel:\n\nRfsub channel - {chat.title}\nId - `{channel_id}`")
     await message.reply_text(f"<b>ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙꜱᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
 
-@Client.on_message(filters.command('norfsub') & filters.private & filters.user(ADMINS))
+@Client.on_message(filters.command('nofsub') & filters.private & filters.user(ADMINS))
 async def remove_rfsub(client, message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
@@ -824,7 +824,7 @@ async def set_time_3(client, message):
     await save_group_settings(grp_id, 'third_verify_time', time)
     await message.reply_text(f"<b>sᴜᴄᴄᴇssꜰᴜʟʟʏ sᴇᴛ 𝟹ʀᴅ ᴠᴇʀɪꜰʏ ᴛɪᴍᴇ ꜰᴏʀ {title}\n\nᴛɪᴍᴇ - <code>{time} sec</code></b>")
 
-@Client.on_message(filters.command('fsub'))
+@Client.on_message(filters.command('sub'))
 async def set_fsub(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
@@ -850,7 +850,7 @@ async def set_fsub(client, message):
     await client.send_message(LOG_CHANNEL, f"#Fsub_Channel_set\n\nUser - {mention} set the force channel for {title}:\n\nFsub channel - {chat.title}\nId - `{channel_id}`")
     await message.reply_text(f"<b>ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ꜰᴏʀᴄᴇ ꜱᴜʙꜱᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ ꜰᴏʀ {title}\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
 
-@Client.on_message(filters.command('nofsub'))
+@Client.on_message(filters.command('nosub'))
 async def remove_fsub(client, message):
     chat_type = message.chat.type
     if chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
