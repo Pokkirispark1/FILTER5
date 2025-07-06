@@ -16,7 +16,7 @@ async def join_reqs(client, join_req):
         return
         
     join_count = await fsub_db.add_join_req(user_id)
-    if await fsub_db.check_rfs
+    if await fsub_db.check_rfsub_limit():
         join_count = await fsub_db.get_join_count()
         limit = await fsub_db.get_rfsub_limit()
         limit_text = f" and added {join_count} of members" if limit else ""
