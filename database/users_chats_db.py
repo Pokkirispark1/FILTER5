@@ -56,15 +56,6 @@ class Database:
             return chat.get('settings', self.default)
         return self.default
 
-    async def find_join_req(self, id):
-        return bool(await self.req.find_one({'id': id}))
-        
-    async def add_join_req(self, id):
-        await self.req.insert_one({'id': id})
-
-    async def del_join_req(self):
-        await self.req.drop()
-
     def new_group(self, id, title):
         return dict(
             id = id,
@@ -268,18 +259,5 @@ class Database:
             {"id": user_id}, {"$set": {"expiry_time": None}}
         )
         
-    async def set_rfsub_id(self, rfsub_id):
-        """Set global rfsub_id."""
-        await self.misc.update_one({'_id': 'rfsub_id'}, {'$set': {'rfsub_id': rfsub_id}}, upsert=True)
-
-    async def get_rfsub_id(self):
-        """Get global rfsub_id, return AUTH_CHANNEL if not set."""
-        doc = await self.misc.find_one({'_id': 'rfsub_id'})
-        return doc.get('rfsub_id', AUTH_CHANNEL) if doc else AUTH_CHANNEL
-
-    async def remove_rfsub_id(self):
-        """Remove global rfsub_id, resetting to AUTH_CHANNEL."""
-        await self.misc.update_one({'_id': 'rfsub_id'}, {'$set': {'rfsub_id': AUTH_CHANNEL}}, upsert=True)
-
 
 db = Database()
