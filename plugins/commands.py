@@ -616,11 +616,11 @@ async def set_rfsub(client, message):
     await fsub_db.set_rfsub_id(channel_id, limit)
     await fsub_db.del_join_req()
     mention = message.from_user.mention
-    limit_text = f" with limit {limit}" if limit else ""
+    limit_text = f"{limit}" if limit else ""
     await client.send_message(LOG_CHANNEL, f"#fsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel{limit_text}:\n\nfsub channel - {chat.title}\nId - `{channel_id}`")
-    await client.send_message(RFSUB_NOTIFICATION, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️</b> {limit_text}\n <b>Cʜᴀɴɴᴇʟ ➡️</b> {chat.title} (`{channel_id}`)")
+    await client.send_message(RFSUB_NOTIFICATION, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️ </b>{limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> {chat.title} (`{channel_id}`)")
     try:
-        await client.send_message(channel_id, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️</b> <code>{limit_text}</code> <b>Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟</b>")
+        await client.send_message(channel_id, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️</b> {limit_text} <b>Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟</b>")
     except Exception as e:
         await client.send_message(LOG_CHANNEL, f"Failed to notify fsub channel {channel_id}: {e}")
     await message.reply_text(f"<b>Sᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ Sᴇᴛ RᴇQᴜᴇꜱᴛ Fᴏʀᴄᴇ Sᴜʙꜱᴄʀɪʙᴇ Cʜᴀɴɴᴇʟ{limit_text}\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
@@ -640,9 +640,9 @@ async def remove_rfsub(client, message):
         mention = message.from_user.mention
         limit_text = f" and added {join_count} of members" if limit else ""
         await client.send_message(LOG_CHANNEL, f"Remove fsub Channel\n\nUser - {mention} removed the global fsub channel{limit_text}")
-        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : `{rfsub_id}`")
+        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : `{rfsub_id}`")
         try:
-            await client.send_message(rfsub_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟")
+            await client.send_message(rfsub_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️ {limit_text} Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟</b>")
         except Exception as e:
             await client.send_message(LOG_CHANNEL, f"Failed to notify rfsub channel {rfsub_id}: {e}")
         await message.reply_text("<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙ ᴄʜᴀɴɴᴇʟ.</b>")
