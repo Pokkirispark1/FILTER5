@@ -1,7 +1,7 @@
 from utils import temp
 from pyrogram import Client, filters, enums
 from pyrogram.types import ChatJoinRequest, InlineKeyboardMarkup, InlineKeyboardButton
-from database.users_chats_db import db
+from database.fsubdb import fsub_db
 from Script import script
 from info import *
 from database.ia_filterdb import get_file_details
@@ -11,12 +11,21 @@ import asyncio
 @Client.on_chat_join_request()
 async def join_reqs(client, join_req):
     user_id = join_req.from_user.id
-    channel_id = await db.get_rfsub_id()  # Use global rfsub_id
+    channel_id = await fsub_db.get_rfsub_id()  
     if join_req.chat.id != int(channel_id):
-        return  # Ignore join requests for other channels
-    # Add user to req collection
-    await db.add_join_req(user_id)
-    # Check if there's a pending file request
+        return
+        
+    join_count = await fsub_db.add_join_req(user_id)
+    if await fsub_db.check_rfs
+        join_count = await fsub_db.get_join_count()
+        limit = await fsub_db.get_rfsub_limit()
+        limit_text = f" and added {join_count} of members" if limit else ""
+        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>`{channel_id}`</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+        try:
+            await client.send_message(channel_id, f"Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>`{channel_id}`</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+        except Exception as e:
+            await client.send_message(LOG_CHANNEL, f"Failed to notify fsub channel {channel_id}: {e}")
+    
     if str(user_id) in temp.AUTO_ACCEPT:
         file_id = temp.AUTO_ACCEPT[str(user_id)]['file_id']
         grp_id = temp.AUTO_ACCEPT[str(user_id)]['grp_id']
@@ -58,5 +67,5 @@ async def join_reqs(client, join_req):
 
 @Client.on_message(filters.command("delete_requests") & filters.private & filters.user(ADMINS))
 async def delete_requests(client, message):
-    await db.del_join_req()
+    await fsub_db.del_join_req()
     await message.reply("<b>⚙ Successfully deleted all channel join requests</b>")
