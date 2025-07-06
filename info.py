@@ -27,8 +27,10 @@ LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002145049116'))
 CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002517992667').split()]
 DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://cmbot5db1:cmbot5db1@cluster0.xa7rvom.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_URI2 = environ.get('DATABASE_URI2', "mongodb+srv://cmbot5db2:cmbot5db2@cluster0.w5raldn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+FSUB_DB_URL = environ.get('FSUB_DB_URL', "mongodb+srv://commonfsub:commonfsub@cluster0.aoiocmp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "Cluster0")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'TheSeatimebotsfives')
+RFSUB_NOTIFICATION = int(environ.get('RFSUB_NOTIFICATION', '-1002706973702'))
 LOG_API_CHANNEL = int(environ.get('LOG_API_CHANNEL', '-1002145049116'))
 QR_CODE = environ.get('QR_CODE', 'https://envs.sh/wam.jpg')
 DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in environ.get('DELETE_CHANNELS', '-1002508695057').split()]
