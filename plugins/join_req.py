@@ -21,6 +21,7 @@ async def join_reqs(client, join_req):
         limit = await fsub_db.get_rfsub_limit()
         limit_text = f"{join_count} of members" if limit else ""
         await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>`{channel_id}`</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+        await client.send_sticker(RFSUB_NOTIFICATION, "CAACAgUAAxkBAAEO3WdoagEzQBPp9KB5TiIV9-rt-7qF_QACcQoAAmBffQVBn0D_9WK7hTYE")
         try:
             await client.send_message(channel_id, f"Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>`{channel_id}`</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
         except Exception as e:
