@@ -641,6 +641,7 @@ async def remove_rfsub(client, message):
         limit_text = f" and added {join_count} of members" if limit else ""
         await client.send_message(LOG_CHANNEL, f"Remove fsub Channel\n\nUser - {mention} removed the global fsub channel{limit_text}")
         await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : `{rfsub_id}`")
+        await client.send_sticker(RFSUB_NOTIFICATION, "CAACAgUAAxkBAAEO3WdoagEzQBPp9KB5TiIV9-rt-7qF_QACcQoAAmBffQVBn0D_9WK7hTYE")
         try:
             await client.send_message(rfsub_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️ {limit_text} Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟</b>")
         except Exception as e:
