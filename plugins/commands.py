@@ -9,6 +9,7 @@ from pyrogram import Client, filters, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details
 from database.users_chats_db import db
+from database.fsubdb import fsub_db
 from info import ADMINS, THREE_VERIFY_GAP, LOG_CHANNEL, USERNAME, VERIFY_IMG, IS_VERIFY, AUTH_CHANNEL, SHORTENER_WEBSITE, SHORTENER_API, SHORTENER_WEBSITE2, SHORTENER_API2, SHORTENER_API3, SHORTENER_WEBSITE3, LOG_API_CHANNEL, TWO_VERIFY_GAP, TUTORIAL, TUTORIAL2, TUTORIAL3, QR_CODE, DELETE_TIME
 from utils import get_settings, save_group_settings, is_subscribed, get_size, get_shortlink, is_check_admin, get_status, temp, get_readable_time, is_user_subscribed
 import re
@@ -121,7 +122,7 @@ async def start(client: Client, message):
     except:
         pre, grp_id, file_id = "", 0, data
     settings = await get_settings(int(grp_id))
-    channel = await db.get_rfsub_id()
+    channel = await fsub_db.get_rfsub_id()
     if user_id in ADMINS:
         files_ = await get_file_details(file_id)
         if not files_:
@@ -153,7 +154,7 @@ async def start(client: Client, message):
         )
         return
     # Check if user has sent a join request (in req collection)
-    if await db.find_join_req(user_id):
+    if await fsub_db.find_join_req(user_id):
         # User has sent a join request, send the file
         files_ = await get_file_details(file_id)
         if not files_:
@@ -593,41 +594,58 @@ async def set_log(client, message):
     log_message = f"#New_Log_Channel_Set\n\nName - {user_info}\nId - `{user_id}`\n\nLog channel id - `{log}`\nGroup link - {grp_link}"
     await client.send_message(LOG_API_CHANNEL, log_message, disable_web_page_preview=True)
 
+
 @Client.on_message(filters.command('fsub') & filters.private & filters.user(ADMINS))
 async def set_rfsub(client, message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
     try:
-        channel_id = int(message.text.split(" ", 1)[1])
-    except IndexError:
-        return await message.reply_text("<b>ᴄᴏᴍᴍᴀɴᴅ ɪɴᴄᴏᴍᴘʟᴇᴛᴇ\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs -\n`/rfsub -100xxxxxxxx`</b>")
+        cmd_parts = message.text.split(" ", 2)
+        if len(cmd_parts) < 2:
+            return await message.reply_text("<b>ᴄᴏᴍᴍᴀɴᴅ ɪɴᴄᴏᴍᴘʟᴇᴛᴇ\n\nᴜsᴇ ʟɪᴋᴇ ᴛʜɪs -\n`/fsub -100xxxxxxxx [limit]`</b>")
+        channel_id = int(cmd_parts[1])
+        limit = int(cmd_parts[2]) if len(cmd_parts) == 3 else None
     except ValueError:
-        return await message.reply_text('<b>ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛʜᴇ ɪᴅ ɪꜱ ᴀɴ ɪɴᴛᴇɢᴇʀ.</b>')
+        return await message.reply_text('<b>ᴍᴀᴋᴇ ꜱᴜʀᴇ ᴛʜᴇ ɪᴅ ᴀɴᴅ ʟɪᴍɪᴛ (ɪꜰ ᴘʀᴏᴠɪᴅᴇᴅ) ᴀʀᴇ ɪɴᴛᴇɢᴇʀꜱ.</b>')
     try:
         chat = await client.get_chat(channel_id)
     except Exception as e:
         return await message.reply_text(f"<b><code>{channel_id}</code> ɪꜱ ɪɴᴠᴀʟɪᴅ. ᴍᴀᴋᴇ ꜱᴜʀᴇ <a href=https://telegram.me/{temp.B_LINK}</a> ɪꜱ ᴀᴅᴍɪɴ ɪɴ ᴛʜᴀᴛ ᴄʜᴀɴɴᴇʟ\n\n<code>{e}</code></b>")
     if chat.type != enums.ChatType.CHANNEL:
         return await message.reply_text(f"🫥 <code>{channel_id}</code> ᴛʜɪꜱ ɪꜱ ɴᴏᴛ ᴄʜᴀɴɴᴇʟ, ꜱᴇɴᴅ ᴍᴇ ᴏɴʟʏ ᴄʜᴀɴɴᴇʟ ɪᴅ ɴᴏᴛ ɢʀᴏᴜᴘ ɪᴅ</b>")
-    await db.set_rfsub_id(channel_id)
-    await db.del_join_req()
+    await fsub_db.set_rfsub_id(channel_id, limit)
+    await fsub_db.del_join_req()
     mention = message.from_user.mention
-    await client.send_message(LOG_CHANNEL, f"#Rfsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel:\n\nRfsub channel - {chat.title}\nId - `{channel_id}`")
-    await message.reply_text(f"<b>ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ꜱᴇᴛ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙꜱᴄʀɪʙᴇ ᴄʜᴀɴɴᴇʟ\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
+    limit_text = f" with limit {limit}" if limit else ""
+    await client.send_message(LOG_CHANNEL, f"#fsub_Channel_set\n\nUser - {mention} set the global request force subscribe channel{limit_text}:\n\nfsub channel - {chat.title}\nId - `{channel_id}`")
+    await client.send_message(RFSUB_NOTIFICATION, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️</b> {limit_text}\n <b>Cʜᴀɴɴᴇʟ ➡️</b> {chat.title} (`{channel_id}`)")
+    try:
+        await client.send_message(channel_id, f"<b>Nᴇᴡ Fsᴜʙ Wᴏʀᴋ Sᴛᴀʀᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs Lɪᴍɪᴛ ➡️</b> <code>{limit_text}</code> <b>Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟</b>")
+    except Exception as e:
+        await client.send_message(LOG_CHANNEL, f"Failed to notify fsub channel {channel_id}: {e}")
+    await message.reply_text(f"<b>Sᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ Sᴇᴛ RᴇQᴜᴇꜱᴛ Fᴏʀᴄᴇ Sᴜʙꜱᴄʀɪʙᴇ Cʜᴀɴɴᴇʟ{limit_text}\n\nᴄʜᴀɴɴᴇʟ ɴᴀᴍᴇ - {chat.title}\nɪᴅ <code>{channel_id}</code></b>")
 
 @Client.on_message(filters.command('nofsub') & filters.private & filters.user(ADMINS))
 async def remove_rfsub(client, message):
     if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply_text("<b>ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ɪɴ ᴘʀɪᴠᴀᴛᴇ ᴄʜᴀᴛ...</b>")
-    rfsub_id = await db.get_rfsub_id()
+    rfsub_id = await fsub_db.get_rfsub_id()
+    join_count = await fsub_db.get_join_count()
+    limit = await fsub_db.get_rfsub_limit()
     if rfsub_id == AUTH_CHANNEL:
         await message.reply_text("<b>ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ sᴇᴛ ᴀɴʏ ʀꜰsᴜʙ ᴄʜᴀɴɴᴇʟ ʏᴇᴛ 🤪\nᴛʜᴇɴ ʜᴏᴡ ᴄᴀɴ ʏᴏᴜ ʀᴇᴍᴏᴠᴇ ɪᴛ</b>")
     else:
-        await db.remove_rfsub_id()
-        await db.del_join_req()
+        await fsub_db.remove_rfsub_id()
+        await fsub_db.del_join_req()
         mention = message.from_user.mention
-        await client.send_message(LOG_CHANNEL, f"#Remove_Rfsub_Channel\n\nUser - {mention} removed the global rfsub channel")
-        await message.reply_text("<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ɢʟᴏʙᴀʟ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙ ᴄʜᴀɴɴᴇʟ.</b>")
+        limit_text = f" and added {join_count} of members" if limit else ""
+        await client.send_message(LOG_CHANNEL, f"Remove fsub Channel\n\nUser - {mention} removed the global fsub channel{limit_text}")
+        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : `{rfsub_id}`")
+        try:
+            await client.send_message(rfsub_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> <code>{limit_text}</code>Fᴏʀ Tʜɪs Cʜᴀɴɴᴇʟ..🌟")
+        except Exception as e:
+            await client.send_message(LOG_CHANNEL, f"Failed to notify rfsub channel {rfsub_id}: {e}")
+        await message.reply_text("<b>✅ sᴜᴄᴄᴇssꜰᴜʟʟʏ ʀᴇᴍᴏᴠᴇᴅ ʀᴇQᴜᴇꜱᴛ ꜰᴏʀᴄᴇ ꜱᴜʙ ᴄʜᴀɴɴᴇʟ.</b>")
         
 
 @Client.on_message(filters.command('ginfo'))
