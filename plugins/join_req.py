@@ -20,10 +20,16 @@ async def join_reqs(client, join_req):
         join_count = await fsub_db.get_join_count()
         limit = await fsub_db.get_rfsub_limit()
         limit_text = f"{join_count}/{limit} members" if limit else f"{join_count} members"
-        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>{channel_id}</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+        await client.send_message(RFSUB_NOTIFICATION, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ 🌟</b>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>{channel_id}</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+        #await asyncio.sleep(2)
+        #await msg1.delete() 
         await client.send_sticker(RFSUB_NOTIFICATION, "CAACAgUAAxkBAAEO3WdoagEzQBPp9KB5TiIV9-rt-7qF_QACcQoAAmBffQVBn0D_9WK7hTYE")
+        #await asyncio.sleep(2)
+        #await msg2.delete() 
         try:
-            await client.send_message(channel_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ ➡️</b> {limit_text}\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>{channel_id}</code>\n\n<b>Fsᴜʙ sʜɪғ�.tᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟ�.t ᴄʜᴀɴɴᴇʟ</b>")
+            await client.send_message(channel_id, f"<b>Fsᴜʙ Wᴏʀᴋ Cᴏᴍᴘʟᴇᴛᴇᴅ ✅</b>\n<b>Rᴇǫᴜᴇsᴛs ᴀᴅᴅᴇᴅ 🌟</b>\n<b>Cʜᴀɴɴᴇʟ ➡️</b> : <code>{channel_id}</code>\n\n<b>Fsᴜʙ sʜɪғᴛᴇᴅ ᴛᴏ ᴅᴇғᴀᴜʟᴛ ᴄʜᴀɴɴᴇʟ</b>")
+            #await asyncio.sleep(2)
+            #await msg3.delete() 
         except Exception as e:
             await client.send_message(LOG_CHANNEL, f"Failed to notify fsub channel {channel_id}: {e}")
 
